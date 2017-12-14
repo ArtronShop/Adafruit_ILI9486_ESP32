@@ -10,7 +10,6 @@ modified by IOXhop (www.ioxhop.com)
 */
 #include <Adafruit_ILI9486_ESP32.h>
 
-uint8_t useDMA;
 uint16_t lineBuffer[1];
 // gpio_reg_map *ctrlRegs;
 /*****************************************************************************/
@@ -147,7 +146,6 @@ void Adafruit_ILI9486_ESP32::begin(void)
 	
 	SPI.beginTransaction(SPISettings(36000000, MSBFIRST, SPI_MODE0));
 	commandList(ili9486_init_sequence);
-	useDMA = 0;
 }
 /*****************************************************************************/
 void Adafruit_ILI9486_ESP32::setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)

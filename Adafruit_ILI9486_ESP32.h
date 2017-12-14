@@ -14,10 +14,7 @@ modified by IOXhop (www.ioxhop.com)
 //#include "Arduino.h"
 //#include "Print.h"
 #include <Adafruit_GFX.h>
-#include <SPI.h> // Using library SPI in folder: D:\Documents\Arduino\hardware\Arduino_STM32\STM32F1\libraries\SPI
-
-//#define USE_DMA 1
-extern uint8_t useDMA;
+#include <SPI.h>
 
 #define TFTWIDTH	320
 #define TFTHEIGHT	480
@@ -62,13 +59,14 @@ Define pins and Output Data Registers
 
 //Control pins |RS |CS |RST|
 #define TFT_RST        26
-#define TFT_RS         27
-#define TFT_CS         25
+#define TFT_RS         33
+
 
 // ESP32
 #define TFT_SCK 14
 #define TFT_MISO 12
 #define TFT_MOSI 13
+#define TFT_CS   15
 
 // extern gpio_reg_map *ctrlRegs;
 // #define CS_ACTIVE    ctrlRegs->BRR  = TFT_CS_MASK //digitalWrite(TFT_CS, LOW); //
@@ -79,10 +77,15 @@ Define pins and Output Data Registers
 #define CS_IDLE      digitalWrite(TFT_CS, HIGH);
 #define CD_COMMAND   digitalWrite(TFT_RS, LOW);
 #define CD_DATA      digitalWrite(TFT_RS, HIGH);*/
-#define CS_ACTIVE    gpio_set_level((gpio_num_t)TFT_CS, 0);
+/*#define CS_ACTIVE    gpio_set_level((gpio_num_t)TFT_CS, 0);
 #define CS_IDLE      gpio_set_level((gpio_num_t)TFT_CS, 1);
 #define CD_COMMAND   gpio_set_level((gpio_num_t)TFT_RS, 0);
 #define CD_DATA      gpio_set_level((gpio_num_t)TFT_RS, 1);
+*/
+#define CD_COMMAND   gpio_set_level((gpio_num_t)TFT_RS, 0);
+#define CD_DATA      gpio_set_level((gpio_num_t)TFT_RS, 1);
+#define CS_ACTIVE    GPIO.out_w1tc = ((uint32_t)1 << TFT_CS);
+#define CS_IDLE      GPIO.out_w1ts = ((uint32_t)1 << TFT_CS);
 
 #define swap(a, b) { int16_t t = a; a = b; b = t; }
 
